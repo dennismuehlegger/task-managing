@@ -1,18 +1,23 @@
 package TestPackage;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Task {
     public String title;
     public boolean isDone;
     public int priority;
-    public Date deadline;
+    public LocalDate deadline;
 
-    public Task(String title, boolean isDone, int priority, Date deadline) {
+    public Task(String title, boolean isDone, int priority, LocalDate deadline) {
         this.title = title;
         this.isDone = isDone;
         this.priority = priority;
         this.deadline = deadline;
+    }
+
+    public Task() {
+
     }
 
     private boolean markAsDone(){
@@ -43,11 +48,16 @@ public class Task {
         this.priority = priority;
     }
 
-    public Date getDeadline() {
+    public LocalDate getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Date deadline) {
+    public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
+    }
+
+    @Override
+    public String toString() {
+        return "Title: " + title + " | Done: " + isDone + " | Priority: " + priority + " | Deadline: " + deadline;
     }
 }

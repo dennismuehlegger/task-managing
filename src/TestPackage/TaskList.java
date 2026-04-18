@@ -9,8 +9,4 @@ public class TaskList {
         this.tasks = tasks;
     }
 
-    public void addTask(Task task){
-        tasks.add(task);
-    }
-
 }
