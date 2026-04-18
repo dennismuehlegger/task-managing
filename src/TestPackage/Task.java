@@ -3,7 +3,7 @@ package TestPackage;
 import java.time.LocalDate;
 import java.util.Date;
 
-public class Task {
+public class Task implements Comparable<Task> {
     public String title;
     public boolean isDone;
     public int priority;
@@ -59,5 +59,10 @@ public class Task {
     @Override
     public String toString() {
         return "Title: " + title + " | Done: " + isDone + " | Priority: " + priority + " | Deadline: " + deadline;
+    }
+
+    @Override
+    public int compareTo(Task o) {
+        return 0;
     }
 }
