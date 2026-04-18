@@ -7,12 +7,13 @@ import java.util.stream.Collectors;
 
 // DONE - filter functionality based on priority, deadline, done or title (alphabetic). sort of works now :)
 // todo - refactoring so not everything is in this class
+// todo - add H2 database and dont rely on scanner (makes it look more real so probably needs to be implemented)
 // todo - asc and desc?
 // todo - multiple filters at the same time?
-// todo - add input validation (try catch)
+// todo - add (input) validation (try catch)
 // todo - tests
 // todo - deadline cannot be set before current date?
-// todo - visualization? (very unlikely until end of project)
+// todo - visualization? (HIGHLY unlikely until end of project)
 /*  DEADLINE FOR MYSELF PLEASE GET THIS DONE BY 26.04.2026!
     WORK ON IT AT LEAST 3 HOURS ON WEEKENDS AND AT LEAST 1 ON WEEKDAYS!!!
     THE (?) DONT NEED TO BE IMPLEMENTED BY THEN BUT AT LEAST THE BASIC FUNCTIONALITY SHOULD WORK
