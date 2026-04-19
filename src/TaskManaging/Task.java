@@ -1,7 +1,6 @@
-package TestPackage;
+package TaskManaging;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Task implements Comparable<Task> {
     public String title;
