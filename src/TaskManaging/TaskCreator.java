@@ -11,9 +11,9 @@ import java.util.*;
 // DONE - refactoring so not everything is in this class
 // todo - refactoring is largely done but more will probably come later
 // todo - task input class overhaul - messy asf rn
-// todo - naming convention
-// todo - add (input) validation (try catch)
-// todo - tests (ADD SOME TESTS IN THE EVENING OR TOMORROW)
+// todo - naming convention!!!
+// todo - add (input) validation (try catch) XXX NEXT UP
+// todo - add more tests XXX NEXT UP
 // todo - multiple filters at the same time?
 // todo - deadline cannot be set before current date?
 // todo - visualization? (HIGHLY unlikely until end of project)
@@ -25,23 +25,36 @@ public class TaskCreator {
 
     TaskFilters taskFilters = new TaskFilters();
 
-    TaskInputs taskInputs = new TaskInputs();
+    public void createTasks(List<Task> taskList, List<TaskInputs> taskCreationInputs, TaskInputs taskFilteringInputs) {
+        for (TaskInputs taskInput : taskCreationInputs) {
+            addTaskToList(taskList, taskInput);
+        }
+        if (taskFilteringInputs.isFiltering || taskFilteringInputs.isSorting) {
+            taskFilters.createFilters(taskList, taskFilteringInputs);
+        }
+    }
 
-    private void createTasks(List<Task> taskList) {
+    private List<TaskInputs> prepareTaskCreationInputs() {
+        List<TaskInputs> taskInputsList = new ArrayList<>();
+        TaskInputs taskInput;
         boolean continueAdding = true;
         do {
-            taskInputs.readInputsForTaskCreation();
-            if (taskInputs.isAdding){
-                addTaskToList(taskList, taskInputs);
+            taskInput = new TaskInputs();
+            taskInput.readInputsForTaskCreation();
+            if (taskInput.isAdding) {
+                taskInputsList.add(taskInput);
             }
             else {
                 continueAdding = false;
             }
         } while (continueAdding);
-        taskInputs.readInputsForTaskFilteringAndSorting();
-        if (taskInputs.isFiltering || taskInputs.isSorting) {
-            taskFilters.createFilters(taskList, taskInputs);
-        }
+        return taskInputsList;
+    }
+
+    private TaskInputs prepareTaskFilteringInputs() {
+        TaskInputs taskInput = new TaskInputs();
+        taskInput.readInputsForTaskFilteringAndSorting();
+        return taskInput;
     }
 
     private void addTaskToList(List<Task> taskList, TaskInputs taskInputs) {
@@ -52,6 +65,8 @@ public class TaskCreator {
     public static void main(String[] args) {
         TaskCreator taskCreator = new TaskCreator();
         List<Task> taskList = new ArrayList<>();
-        taskCreator.createTasks(taskList);
+        List<TaskInputs> taskInputs = taskCreator.prepareTaskCreationInputs();
+        TaskInputs taskFilteringInputs = taskCreator.prepareTaskFilteringInputs();
+        taskCreator.createTasks(taskList, taskInputs, taskFilteringInputs);
     }
 }

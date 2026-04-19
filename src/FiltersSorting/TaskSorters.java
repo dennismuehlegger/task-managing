@@ -9,18 +9,22 @@ import java.util.stream.Collectors;
 public class TaskSorters {
 
     public List<Task> sortByPriority(List<Task> tasks) {
-        return tasks.stream().sorted(Comparator.comparing(Task::getPriority)).collect(Collectors.toList());
+        tasks.sort(Comparator.comparing(Task::getPriority));
+        return tasks;
     }
 
     public List<Task> sortByDeadline(List<Task> tasks) {
-        return tasks.stream().sorted(Comparator.comparing(Task::getDeadline)).collect(Collectors.toList());
+        tasks.sort(Comparator.comparing(Task::getDeadline));
+        return tasks;
     }
 
     public List<Task> sortByDone(List<Task> tasks) {
-        return tasks.stream().sorted(Comparator.comparing(Task::isDone)).collect(Collectors.toList());
+        tasks.sort(Comparator.comparing(Task::isDone));
+        return tasks;
     }
 
     public List<Task> sortByTitle(List<Task> tasks) {
-        return tasks.stream().sorted(Comparator.comparing(Task::getTitle)).collect(Collectors.toList());
+        tasks.sort(Comparator.comparing(Task::getTitle));
+        return tasks;
     }
 }
