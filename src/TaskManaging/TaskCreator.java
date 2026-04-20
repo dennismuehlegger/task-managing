@@ -9,10 +9,11 @@ import java.util.*;
 // DONE - asc and desc?
 // DONE - make methods not reliant on scanner for better testability
 // DONE - refactoring so not everything is in this class
+// DONE - add (input) validation (try catch)
+// DONE - magic string removal
 // todo - refactoring is largely done but more will probably come later
-// todo - task input class overhaul - messy asf rn
+// todo - task input class overhaul - better rn but still not ideal
 // todo - naming convention!!!
-// todo - add (input) validation (try catch) XXX NEXT UP
 // todo - add more tests XXX NEXT UP
 // todo - multiple filters at the same time?
 // todo - deadline cannot be set before current date?
@@ -31,20 +32,20 @@ public class TaskCreator {
         }
         if (taskFilteringInputs.isFiltering || taskFilteringInputs.isSorting) {
             taskFilters.createFilters(taskList, taskFilteringInputs);
+        } else {
+            taskFilters.output(taskList);
         }
     }
 
     private List<TaskInputs> prepareTaskCreationInputs() {
         List<TaskInputs> taskInputsList = new ArrayList<>();
-        TaskInputs taskInput;
         boolean continueAdding = true;
         do {
-            taskInput = new TaskInputs();
-            taskInput.readInputsForTaskCreation();
-            if (taskInput.isAdding) {
+            TaskInputs taskInput = new TaskInputs().readInputsForTaskCreation();
+            if (taskInput.isAdding &&
+                    (taskInput.getPriority() != 0 || taskInput.getDeadline() != null)) {
                 taskInputsList.add(taskInput);
-            }
-            else {
+            } else {
                 continueAdding = false;
             }
         } while (continueAdding);
@@ -52,9 +53,12 @@ public class TaskCreator {
     }
 
     private TaskInputs prepareTaskFilteringInputs() {
-        TaskInputs taskInput = new TaskInputs();
-        taskInput.readInputsForTaskFilteringAndSorting();
-        return taskInput;
+        try {
+            return new TaskInputs().readInputsForTaskFilteringAndSorting();
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input for filtering/sorting. Please try again.");
+            return new TaskInputs().readInputsForTaskFilteringAndSorting();
+        }
     }
 
     private void addTaskToList(List<Task> taskList, TaskInputs taskInputs) {

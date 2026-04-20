@@ -21,7 +21,7 @@ public class TaskFilters {
         output(filteredTasks);
     }
 
-    private void output(List<Task> taskList){
+    public void output(List<Task> taskList){
         for (int i = 0; i < taskList.size(); i++) {
             System.out.println("Task number: " + i + " | " + taskList.get(i).toString());
         }

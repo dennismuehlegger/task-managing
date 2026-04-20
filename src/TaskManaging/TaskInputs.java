@@ -2,6 +2,8 @@ package TaskManaging;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TaskInputs {
@@ -38,25 +40,9 @@ public class TaskInputs {
 
     }
 
-    public void getInputsForTaskCreation(boolean isAdding, String title, boolean isDone, int priority, LocalDate deadline) {
-        TaskInputs taskInputs = new TaskInputs();
-        taskInputs.setAdding(isAdding);
-        taskInputs.setTitle(title);
-        taskInputs.setDone(isDone);
-        taskInputs.setPriority(priority);
-        taskInputs.setDeadline(deadline);
-    }
-
-    public void getInputsForTaskFilteringAndSorting(boolean isFiltering, boolean isSorting, String filterType) {
-        TaskInputs taskInputs = new TaskInputs();
-        taskInputs.setFiltering(isFiltering);
-        taskInputs.setSorting(isSorting);
-        taskInputs.setFilterType(filterType);
-    }
-
-    public void readInputsForTaskCreation() {
+    public TaskInputs readInputsForTaskCreation() {
             System.out.print("Do you want to add a new Task? (yes/no): ");
-            if (scanner.nextLine().equalsIgnoreCase("yes")) {
+            if (scanner.nextLine().equalsIgnoreCase(TaskInputEnums.YES.value)) {
                 setAdding(true);
 
                 System.out.print("Enter task title: ");
@@ -66,31 +52,50 @@ public class TaskInputs {
 
                 // 1 = low priority, 5 = high priority
                 System.out.print("Enter task priority (1-5): ");
-                setPriority(Integer.parseInt(scanner.nextLine()));
+                try {
+                    setPriority(Integer.parseInt(scanner.nextLine()));
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input for priority. Please try again.");
+                }
 
                 System.out.print("Enter task deadline (YYYY-MM-DD): ");
-                setDeadline(scanToLocalDate(scanner.nextLine()));
+                try {
+                    setDeadline(scanToLocalDate(scanner.nextLine()));
+                } catch (DateTimeParseException e) {
+                    System.out.println("Invalid input for deadline. Please try again.");
+                }
             }
             else {
                 setAdding(false);
             }
-        getInputsForTaskCreation(isAdding(), getTitle(), isDone(), getPriority(), getDeadline());
+        return this;
     }
 
-    public void readInputsForTaskFilteringAndSorting(){
+    public TaskInputs readInputsForTaskFilteringAndSorting(){
         System.out.print("Do you want to add a Filter? (yes/no): ");
-        if (scanner.nextLine().equalsIgnoreCase("yes")) {
+        if (scanner.nextLine().equalsIgnoreCase(TaskInputEnums.YES.value)) {
             setFiltering(true);
+            System.out.print("Which filter should be used? (title, priority, status, deadline): ");
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase(TaskInputEnums.TITLE.value)
+                    || input.equalsIgnoreCase(TaskInputEnums.PRIORITY.value)
+                    || input.equalsIgnoreCase(TaskInputEnums.STATUS.value)
+                    || input.equalsIgnoreCase(TaskInputEnums.DEADLINE.value)) {
+                setFilterType(input);
+            } else {
+                throw new InputMismatchException();
+            }
         }
-
-        System.out.print("Which filter should be used? (title, priority, status, deadline): ");
-        setFilterType(scanner.nextLine());
 
         System.out.print("sorting order? (asc/desc): ");
-        if (scanner.nextLine().equalsIgnoreCase("desc")) {
+        String input = scanner.nextLine();
+        if (input.equalsIgnoreCase(TaskInputEnums.DESC.value)) {
             setSorting(true);
         }
-        getInputsForTaskFilteringAndSorting(isFiltering(), isSorting(), getFilterType());
+        else if (!input.equalsIgnoreCase(TaskInputEnums.ASC.value)) {
+             throw new InputMismatchException();
+        }
+        return this;
     }
 
     private LocalDate scanToLocalDate(String input) {
