@@ -12,9 +12,9 @@ import java.util.*;
 // DONE - add (input) validation (try catch)
 // DONE - magic string removal
 // todo - refactoring is largely done but more will probably come later
-// todo - task input class overhaul - better rn but still not ideal
+// todo - task input class overhaul - currently have an idea. need more time later
 // todo - naming convention!!!
-// todo - add more tests XXX NEXT UP
+// todo - add invalid tests
 // todo - multiple filters at the same time?
 // todo - deadline cannot be set before current date?
 // todo - visualization? (HIGHLY unlikely until end of project)
@@ -53,12 +53,7 @@ public class TaskCreator {
     }
 
     private TaskInputs prepareTaskFilteringInputs() {
-        try {
-            return new TaskInputs().readInputsForTaskFilteringAndSorting();
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input for filtering/sorting. Please try again.");
-            return new TaskInputs().readInputsForTaskFilteringAndSorting();
-        }
+        return new TaskInputs().readInputsForTaskFilteringAndSorting();
     }
 
     private void addTaskToList(List<Task> taskList, TaskInputs taskInputs) {

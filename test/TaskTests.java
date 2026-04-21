@@ -4,14 +4,16 @@ import TaskManaging.TaskInputs;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 public class TaskTests {
 
-    //simple test to prove that it works. needs to be separated more in the future into multiple tests for creation, filtering and sorting
     @Test
     public void testTaskCreation(){
 
@@ -19,8 +21,51 @@ public class TaskTests {
         List<Task> tasklist = new ArrayList<>();
         List<TaskInputs> taskCreationInputList = new ArrayList<>();
 
-        TaskInputs taskCreationInputs = new TaskInputs(true, "b", false, 5, LocalDate.now(), false, false, null);
-        TaskInputs taskCreationInputs1 = new TaskInputs(true, "a", false, 5, LocalDate.of(2012, 2,2), false, false, null);
+        TaskInputs taskCreationInputs1 = new TaskInputs(true, "bee", false, 5, LocalDate.of(2012, 2,2), false, false, null);
+        taskCreationInputList.add(taskCreationInputs1);
+        TaskInputs taskFilteringInputs = new TaskInputs(false, null, false, 0, null, false, false, null);
+
+        taskCreator.createTasks(tasklist, taskCreationInputList, taskFilteringInputs);
+
+        assertEquals("1 task should exist", 1, tasklist.size());
+        assertEquals("task should be named bee", "bee", tasklist.get(0).getTitle());
+        assertEquals("task should have priority 5", 5, tasklist.get(0).getPriority());
+        assertEquals("task should have deadline 2012-02-02", LocalDate.of(2012, 2,2), tasklist.get(0).getDeadline());
+    }
+
+    @Test
+    public void testMultipleTaskCreation(){
+
+        TaskCreator taskCreator = new TaskCreator();
+        List<Task> tasklist = new ArrayList<>();
+        List<TaskInputs> taskCreationInputList = new ArrayList<>();
+
+        TaskInputs taskCreationInputs = new TaskInputs(true, "bee", false, 3, LocalDate.of(2019, 8, 15), false, false, null);
+        TaskInputs taskCreationInputs1 = new TaskInputs(true, "apple", false, 5, LocalDate.of(2012, 2,2), false, false, null);
+        taskCreationInputList.add(taskCreationInputs);
+        taskCreationInputList.add(taskCreationInputs1);
+        TaskInputs taskFilteringInputs = new TaskInputs(false, null, false, 0, null, false, false, null);
+
+        taskCreator.createTasks(tasklist, taskCreationInputList, taskFilteringInputs);
+
+        assertEquals("2 tasks should exist", 2, tasklist.size());
+        assertEquals("task bee should exist", "bee", tasklist.get(0).getTitle());
+        assertEquals("task apple should exist", "apple", tasklist.get(1).getTitle());
+        assertEquals("task bee should have priority 3", 3, tasklist.get(0).getPriority());
+        assertEquals("task apple should have priority 5", 5, tasklist.get(1).getPriority());
+        assertEquals("task bee should have deadline 2019-08-15", LocalDate.of(2019, 8,15), tasklist.get(0).getDeadline());
+        assertEquals("task apple should have deadline 2012-02-02", LocalDate.of(2012, 2,2), tasklist.get(1).getDeadline());
+    }
+
+    @Test
+    public void testMultipleTaskCreationFiltering(){
+
+        TaskCreator taskCreator = new TaskCreator();
+        List<Task> tasklist = new ArrayList<>();
+        List<TaskInputs> taskCreationInputList = new ArrayList<>();
+
+        TaskInputs taskCreationInputs = new TaskInputs(true, "bee", false, 5, LocalDate.of(2019, 8, 15), false, false, null);
+        TaskInputs taskCreationInputs1 = new TaskInputs(true, "apple", false, 5, LocalDate.of(2012, 2,2), false, false, null);
         taskCreationInputList.add(taskCreationInputs);
         taskCreationInputList.add(taskCreationInputs1);
         TaskInputs taskFilteringInputs = new TaskInputs(false, null, false, 0, null, true, false, "title");
@@ -28,6 +73,39 @@ public class TaskTests {
         taskCreator.createTasks(tasklist, taskCreationInputList, taskFilteringInputs);
 
         assertEquals("2 tasks should exist", 2, tasklist.size());
-        assertEquals("task a should be first after sorting", "a", tasklist.get(0).getTitle());
+        assertEquals("task apple should be first after filtering", "apple", tasklist.get(0).getTitle());
     }
+
+    @Test
+    public void testMultipleTaskCreationFilteringDescSorting(){
+
+        TaskCreator taskCreator = new TaskCreator();
+        List<Task> tasklist = new ArrayList<>();
+        List<TaskInputs> taskCreationInputList = new ArrayList<>();
+
+        TaskInputs taskCreationInputs = new TaskInputs(true, "bee", false, 5, LocalDate.of(2019, 8, 15), false, false, null);
+        TaskInputs taskCreationInputs1 = new TaskInputs(true, "apple", false, 5, LocalDate.of(2012, 2,2), false, false, null);
+        taskCreationInputList.add(taskCreationInputs);
+        taskCreationInputList.add(taskCreationInputs1);
+        TaskInputs taskFilteringInputs = new TaskInputs(false, null, false, 0, null, true, true, "title");
+
+        taskCreator.createTasks(tasklist, taskCreationInputList, taskFilteringInputs);
+
+        assertEquals("2 tasks should exist", 2, tasklist.size());
+        assertEquals("task bee should be first after sorting by desc", "bee", tasklist.get(0).getTitle());
+    }
+
+    /*@Test
+    public void testTaskCreationInvalidInput(){
+
+        TaskCreator taskCreator = new TaskCreator();
+        List<Task> tasklist = new ArrayList<>();
+        List<TaskInputs> taskCreationInputList = new ArrayList<>();
+
+        TaskInputs taskCreationInputs = new TaskInputs(true, "bee", false, 5, LocalDate.of(2019, 8, 15), false, false, null);
+        taskCreationInputList.add(taskCreationInputs);
+        TaskInputs taskFilteringInputs = new TaskInputs(false, null, false, 0, null, true, false, "asdf");
+
+        assertThrows("InputMismatchException should be thrown", InputMismatchException.class, () -> taskCreator.createTasks(tasklist, taskCreationInputList, taskFilteringInputs));
+    }*/
 }

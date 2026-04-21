@@ -76,24 +76,27 @@ public class TaskInputs {
         if (scanner.nextLine().equalsIgnoreCase(TaskInputEnums.YES.value)) {
             setFiltering(true);
             System.out.print("Which filter should be used? (title, priority, status, deadline): ");
-            String input = scanner.nextLine();
-            if (input.equalsIgnoreCase(TaskInputEnums.TITLE.value)
-                    || input.equalsIgnoreCase(TaskInputEnums.PRIORITY.value)
-                    || input.equalsIgnoreCase(TaskInputEnums.STATUS.value)
-                    || input.equalsIgnoreCase(TaskInputEnums.DEADLINE.value)) {
-                setFilterType(input);
-            } else {
-                throw new InputMismatchException();
+            try {
+                String input = scanner.nextLine();
+                if (input.equalsIgnoreCase(TaskInputEnums.TITLE.value)
+                        || input.equalsIgnoreCase(TaskInputEnums.PRIORITY.value)
+                        || input.equalsIgnoreCase(TaskInputEnums.STATUS.value)
+                        || input.equalsIgnoreCase(TaskInputEnums.DEADLINE.value)) {
+                    setFilterType(input);
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input for filter type. Please try again.");
             }
         }
 
         System.out.print("sorting order? (asc/desc): ");
-        String input = scanner.nextLine();
-        if (input.equalsIgnoreCase(TaskInputEnums.DESC.value)) {
-            setSorting(true);
-        }
-        else if (!input.equalsIgnoreCase(TaskInputEnums.ASC.value)) {
-             throw new InputMismatchException();
+        try {
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase(TaskInputEnums.DESC.value)) {
+                setSorting(true);
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input for sorting type. Please try again.");
         }
         return this;
     }
