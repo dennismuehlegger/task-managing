@@ -1,6 +1,7 @@
 package FiltersSorting;
 
 import TaskManaging.Task;
+import TaskManaging.TaskInputEnums;
 import TaskManaging.TaskInputs;
 
 import java.util.Collections;
@@ -28,11 +29,12 @@ public class TaskFilters {
     }
 
     private List<Task> addFilter(List<Task> taskList, TaskInputs taskInputs) {
-        return switch (taskInputs.filterType) {
-            case "title" -> taskSorters.sortByTitle(taskList);
-            case "priority" -> taskSorters.sortByPriority(taskList);
-            case "status" -> taskSorters.sortByDone(taskList);
-            case "deadline" -> taskSorters.sortByDeadline(taskList);
+        TaskInputEnums taskInputEnums = TaskInputEnums.valueOf(taskInputs.filterType.toUpperCase());
+        return switch (taskInputEnums) {
+            case TITLE -> taskSorters.sortByTitle(taskList);
+            case PRIORITY -> taskSorters.sortByPriority(taskList);
+            case STATUS -> taskSorters.sortByDone(taskList);
+            case DEADLINE -> taskSorters.sortByDeadline(taskList);
             default -> null;
         };
     }

@@ -11,13 +11,13 @@ import java.util.*;
 // DONE - refactoring so not everything is in this class
 // DONE - add (input) validation (try catch)
 // DONE - magic string removal
+// NOT NECESSARY - multiple filters at the same time?
+// NOT NECESSARY - deadline cannot be set before current date?
+// REVISION SOME TIME LATER - visualization?
 // todo - refactoring is largely done but more will probably come later
-// todo - task input class overhaul - currently have an idea. need more time later
+// todo - task input class overhaul - getting closer to solution
 // todo - naming convention!!!
 // todo - add invalid tests
-// todo - multiple filters at the same time?
-// todo - deadline cannot be set before current date?
-// todo - visualization? (HIGHLY unlikely until end of project)
 /*  DEADLINE FOR MYSELF PLEASE GET THIS DONE BY 26.04.2026!
     WORK ON IT AT LEAST 3 HOURS ON WEEKENDS AND AT LEAST 1 ON WEEKDAYS!!!
     THE (?) DONT NEED TO BE IMPLEMENTED BY THEN BUT AT LEAST THE BASIC FUNCTIONALITY SHOULD WORK

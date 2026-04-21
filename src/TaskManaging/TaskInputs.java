@@ -1,9 +1,6 @@
 package TaskManaging;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TaskInputs {
@@ -23,6 +20,8 @@ public class TaskInputs {
 
     public String filterType;
 
+    public TaskInputProcessor taskInputProcessor;
+
     Scanner scanner = new Scanner(System.in);
 
     public TaskInputs(boolean isAdding, String title, boolean isDone, int priority, LocalDate deadline, boolean isFiltering, boolean isSorting, String filterType) {
@@ -41,72 +40,32 @@ public class TaskInputs {
     }
 
     public TaskInputs readInputsForTaskCreation() {
-            System.out.print("Do you want to add a new Task? (yes/no): ");
-            if (scanner.nextLine().equalsIgnoreCase(TaskInputEnums.YES.value)) {
-                setAdding(true);
+        System.out.print("Do you want to add a new Task? (yes/no): ");
+        String userInput = scanner.nextLine();
 
-                System.out.print("Enter task title: ");
-                setTitle(scanner.nextLine());
 
-                setDone(false);
+        System.out.print("Enter task title: ");
+        String titleInput = scanner.nextLine();
 
-                // 1 = low priority, 5 = high priority
-                System.out.print("Enter task priority (1-5): ");
-                try {
-                    setPriority(Integer.parseInt(scanner.nextLine()));
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid input for priority. Please try again.");
-                }
+        // 1 = low priority, 5 = high priority
+        System.out.print("Enter task priority (1-5): ");
+        String priorityInput = scanner.nextLine();
 
-                System.out.print("Enter task deadline (YYYY-MM-DD): ");
-                try {
-                    setDeadline(scanToLocalDate(scanner.nextLine()));
-                } catch (DateTimeParseException e) {
-                    System.out.println("Invalid input for deadline. Please try again.");
-                }
-            }
-            else {
-                setAdding(false);
-            }
-        return this;
+        System.out.print("Enter task deadline (YYYY-MM-DD): ");
+        String deadlineInput = scanner.nextLine();
+
+        return taskInputProcessor.processTaskCreation(userInput, titleInput, priorityInput, deadlineInput);
     }
 
-    public TaskInputs readInputsForTaskFilteringAndSorting(){
+    public TaskInputs readInputsForTaskFilteringAndSorting() {
         System.out.print("Do you want to add a Filter? (yes/no): ");
-        if (scanner.nextLine().equalsIgnoreCase(TaskInputEnums.YES.value)) {
-            setFiltering(true);
-            System.out.print("Which filter should be used? (title, priority, status, deadline): ");
-            try {
-                String input = scanner.nextLine();
-                if (input.equalsIgnoreCase(TaskInputEnums.TITLE.value)
-                        || input.equalsIgnoreCase(TaskInputEnums.PRIORITY.value)
-                        || input.equalsIgnoreCase(TaskInputEnums.STATUS.value)
-                        || input.equalsIgnoreCase(TaskInputEnums.DEADLINE.value)) {
-                    setFilterType(input);
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input for filter type. Please try again.");
-            }
-        }
+        String userInput = scanner.nextLine();
+        System.out.print("Which filter should be used? (title, priority, status, deadline): ");
+        String filterInput = scanner.nextLine();
 
         System.out.print("sorting order? (asc/desc): ");
-        try {
-            String input = scanner.nextLine();
-            if (input.equalsIgnoreCase(TaskInputEnums.DESC.value)) {
-                setSorting(true);
-            }
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input for sorting type. Please try again.");
-        }
-        return this;
-    }
-
-    private LocalDate scanToLocalDate(String input) {
-        try (Scanner scanner = new Scanner(input)) {
-            String dateString = scanner.next();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            return LocalDate.parse(dateString, formatter);
-        }
+        String sortingInput = scanner.nextLine();
+        return taskInputProcessor.processInputsForTaskFilteringAndSorting(userInput, filterInput, sortingInput);
     }
 
     public boolean isAdding() {
