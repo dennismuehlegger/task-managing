@@ -30,7 +30,7 @@ public class TaskCreator {
         for (TaskInputs taskInput : taskCreationInputs) {
             addTaskToList(taskList, taskInput);
         }
-        if (taskFilteringInputs.isFiltering || taskFilteringInputs.isSorting) {
+        if (taskFilteringInputs != null && (taskFilteringInputs.isFiltering || taskFilteringInputs.isSorting)) {
             taskFilters.createFilters(taskList, taskFilteringInputs);
         } else {
             taskFilters.output(taskList);
@@ -65,8 +65,11 @@ public class TaskCreator {
     public static void main(String[] args) {
         TaskCreator taskCreator = new TaskCreator();
         List<Task> taskList = new ArrayList<>();
+        TaskInputs taskFilteringInputs = null;
         List<TaskInputs> taskInputs = taskCreator.prepareTaskCreationInputs();
-        TaskInputs taskFilteringInputs = taskCreator.prepareTaskFilteringInputs();
+        if (taskInputs.size() > 1){
+            taskFilteringInputs = taskCreator.prepareTaskFilteringInputs();
+        }
         taskCreator.createTasks(taskList, taskInputs, taskFilteringInputs);
     }
 }

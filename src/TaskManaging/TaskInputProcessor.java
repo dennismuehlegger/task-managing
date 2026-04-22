@@ -2,7 +2,6 @@ package TaskManaging;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class TaskInputProcessor {
@@ -11,18 +10,13 @@ public class TaskInputProcessor {
         taskInputs.setAdding(true);
         taskInputs.setTitle(titleInput);
         taskInputs.setDone(false);
-
-        try {
-            taskInputs.setPriority(Integer.parseInt(priorityInput));
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Invalid input for priority. Must be an integer.");
-        }
+        taskInputs.setPriority(Integer.parseInt(priorityInput));
         taskInputs.setDeadline(scanToLocalDate(deadlineInput));
         return taskInputs;
     }
 
     public TaskInputs processInputsForTaskFilteringAndSorting(TaskInputs taskInputs, String filterInput, String sortingInput) {
-        if (filterInput != null){
+        if (filterInput != null) {
             taskInputs.setFiltering(true);
             if (filterInput.equalsIgnoreCase(TaskInputEnums.TITLE.value)
                     || filterInput.equalsIgnoreCase(TaskInputEnums.PRIORITY.value)
@@ -43,10 +37,9 @@ public class TaskInputProcessor {
     }
 
     private LocalDate scanToLocalDate(String input) {
-        try (Scanner scanner = new Scanner(input)) {
-            String dateString = scanner.next();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            return LocalDate.parse(dateString, formatter);
-        }
+        Scanner scanner = new Scanner(input);
+        String dateString = scanner.next();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDate.parse(dateString, formatter);
     }
 }

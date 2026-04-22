@@ -45,12 +45,18 @@ public class TaskInputs {
             System.out.print("Enter task title: ");
             String titleInput = scanner.nextLine();
 
-            // 1 = low priority, 5 = high priority
-            System.out.print("Enter task priority (1-5): ");
-            String priorityInput = scanner.nextLine();
+            String priorityInput;
+            do {
+                // 1 = low priority, 5 = high priority
+                System.out.print("Enter task priority (1-5): ");
+                priorityInput = scanner.nextLine();
+            } while (!priorityInput.matches("[1-5]"));
 
-            System.out.print("Enter task deadline (YYYY-MM-DD): ");
-            String deadlineInput = scanner.nextLine();
+            String deadlineInput;
+            do {
+                System.out.print("Enter task deadline (YYYY-MM-DD): ");
+                deadlineInput = scanner.nextLine();
+            } while (!deadlineInput.matches("\\d{4}-\\d{2}-\\d{2}"));
             return taskInputProcessor.processTaskCreation(this, titleInput, priorityInput, deadlineInput);
         }
         return null;
