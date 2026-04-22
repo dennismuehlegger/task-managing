@@ -7,35 +7,23 @@ import java.util.Scanner;
 
 public class TaskInputProcessor {
 
-    TaskInputs taskInputs;
+    public TaskInputs processTaskCreation(TaskInputs taskInputs, String titleInput, String priorityInput, String deadlineInput) {
+        taskInputs.setAdding(true);
+        taskInputs.setTitle(titleInput);
+        taskInputs.setDone(false);
 
-    public TaskInputs processTaskCreation(String userInput, String titleInput, String priorityInput, String deadlineInput) {
-        if (userInput.equalsIgnoreCase(TaskInputEnums.YES.value)) {
-            taskInputs.setAdding(true);
-            taskInputs.setTitle(titleInput);
-            taskInputs.setDone(false);
-
-            try {
-                taskInputs.setPriority(Integer.parseInt(priorityInput));
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Invalid input for priority.");
-            }
-
-            try {
-                taskInputs.setDeadline(scanToLocalDate(deadlineInput));
-            } catch (DateTimeParseException e) {
-                throw new IllegalArgumentException("Invalid input for deadline.");
-            }
-        } else {
-            taskInputs.setAdding(false);
+        try {
+            taskInputs.setPriority(Integer.parseInt(priorityInput));
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid input for priority. Must be an integer.");
         }
+        taskInputs.setDeadline(scanToLocalDate(deadlineInput));
         return taskInputs;
     }
 
-    public TaskInputs processInputsForTaskFilteringAndSorting(String userInput, String filterInput, String sortingInput) {
-        if (userInput.equalsIgnoreCase(TaskInputEnums.YES.value)) {
+    public TaskInputs processInputsForTaskFilteringAndSorting(TaskInputs taskInputs, String filterInput, String sortingInput) {
+        if (filterInput != null){
             taskInputs.setFiltering(true);
-
             if (filterInput.equalsIgnoreCase(TaskInputEnums.TITLE.value)
                     || filterInput.equalsIgnoreCase(TaskInputEnums.PRIORITY.value)
                     || filterInput.equalsIgnoreCase(TaskInputEnums.STATUS.value)

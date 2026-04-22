@@ -20,8 +20,6 @@ public class TaskInputs {
 
     public String filterType;
 
-    public TaskInputProcessor taskInputProcessor;
-
     Scanner scanner = new Scanner(System.in);
 
     public TaskInputs(boolean isAdding, String title, boolean isDone, int priority, LocalDate deadline, boolean isFiltering, boolean isSorting, String filterType) {
@@ -39,33 +37,37 @@ public class TaskInputs {
 
     }
 
-    public TaskInputs readInputsForTaskCreation() {
+    public TaskInputs readInputsForTaskCreation(TaskInputProcessor taskInputProcessor) {
         System.out.print("Do you want to add a new Task? (yes/no): ");
         String userInput = scanner.nextLine();
 
+        if (userInput.equalsIgnoreCase(TaskInputEnums.YES.value)){
+            System.out.print("Enter task title: ");
+            String titleInput = scanner.nextLine();
 
-        System.out.print("Enter task title: ");
-        String titleInput = scanner.nextLine();
+            // 1 = low priority, 5 = high priority
+            System.out.print("Enter task priority (1-5): ");
+            String priorityInput = scanner.nextLine();
 
-        // 1 = low priority, 5 = high priority
-        System.out.print("Enter task priority (1-5): ");
-        String priorityInput = scanner.nextLine();
-
-        System.out.print("Enter task deadline (YYYY-MM-DD): ");
-        String deadlineInput = scanner.nextLine();
-
-        return taskInputProcessor.processTaskCreation(userInput, titleInput, priorityInput, deadlineInput);
+            System.out.print("Enter task deadline (YYYY-MM-DD): ");
+            String deadlineInput = scanner.nextLine();
+            return taskInputProcessor.processTaskCreation(this, titleInput, priorityInput, deadlineInput);
+        }
+        return null;
     }
 
-    public TaskInputs readInputsForTaskFilteringAndSorting() {
+    public TaskInputs readInputsForTaskFilteringAndSorting(TaskInputProcessor taskInputProcessor) {
+        String filterInput = null;
         System.out.print("Do you want to add a Filter? (yes/no): ");
         String userInput = scanner.nextLine();
-        System.out.print("Which filter should be used? (title, priority, status, deadline): ");
-        String filterInput = scanner.nextLine();
+        if (userInput.equalsIgnoreCase(TaskInputEnums.YES.value)){
+            System.out.print("Which filter should be used? (title, priority, status, deadline): ");
+            filterInput = scanner.nextLine();
+        }
 
         System.out.print("sorting order? (asc/desc): ");
         String sortingInput = scanner.nextLine();
-        return taskInputProcessor.processInputsForTaskFilteringAndSorting(userInput, filterInput, sortingInput);
+        return taskInputProcessor.processInputsForTaskFilteringAndSorting(this, filterInput, sortingInput);
     }
 
     public boolean isAdding() {

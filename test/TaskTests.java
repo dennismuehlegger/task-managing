@@ -95,8 +95,8 @@ public class TaskTests {
         assertEquals("task bee should be first after sorting by desc", "bee", tasklist.get(0).getTitle());
     }
 
-    /*@Test
-    public void testTaskCreationInvalidInput(){
+    @Test
+    public void testTaskCreationIllegalArgumentException(){
 
         TaskCreator taskCreator = new TaskCreator();
         List<Task> tasklist = new ArrayList<>();
@@ -106,6 +106,6 @@ public class TaskTests {
         taskCreationInputList.add(taskCreationInputs);
         TaskInputs taskFilteringInputs = new TaskInputs(false, null, false, 0, null, true, false, "asdf");
 
-        assertThrows("InputMismatchException should be thrown", InputMismatchException.class, () -> taskCreator.createTasks(tasklist, taskCreationInputList, taskFilteringInputs));
-    }*/
+        assertThrows("IllegalArgumentException should be thrown", IllegalArgumentException.class, () -> taskCreator.createTasks(tasklist, taskCreationInputList, taskFilteringInputs));
+    }
 }

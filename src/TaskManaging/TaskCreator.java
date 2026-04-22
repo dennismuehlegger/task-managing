@@ -11,11 +11,11 @@ import java.util.*;
 // DONE - refactoring so not everything is in this class
 // DONE - add (input) validation (try catch)
 // DONE - magic string removal
+// DONE? - task input class overhaul - getting closer to solution
 // NOT NECESSARY - multiple filters at the same time?
 // NOT NECESSARY - deadline cannot be set before current date?
 // REVISION SOME TIME LATER - visualization?
 // todo - refactoring is largely done but more will probably come later
-// todo - task input class overhaul - getting closer to solution
 // todo - naming convention!!!
 // todo - add invalid tests
 /*  DEADLINE FOR MYSELF PLEASE GET THIS DONE BY 26.04.2026!
@@ -39,11 +39,11 @@ public class TaskCreator {
 
     private List<TaskInputs> prepareTaskCreationInputs() {
         List<TaskInputs> taskInputsList = new ArrayList<>();
+        TaskInputProcessor taskInputProcessor = new TaskInputProcessor();
         boolean continueAdding = true;
         do {
-            TaskInputs taskInput = new TaskInputs().readInputsForTaskCreation();
-            if (taskInput.isAdding &&
-                    (taskInput.getPriority() != 0 || taskInput.getDeadline() != null)) {
+            TaskInputs taskInput = new TaskInputs().readInputsForTaskCreation(taskInputProcessor);
+            if (taskInput != null && taskInput.isAdding) {
                 taskInputsList.add(taskInput);
             } else {
                 continueAdding = false;
@@ -53,7 +53,8 @@ public class TaskCreator {
     }
 
     private TaskInputs prepareTaskFilteringInputs() {
-        return new TaskInputs().readInputsForTaskFilteringAndSorting();
+        TaskInputProcessor taskInputProcessor = new TaskInputProcessor();
+        return new TaskInputs().readInputsForTaskFilteringAndSorting(taskInputProcessor);
     }
 
     private void addTaskToList(List<Task> taskList, TaskInputs taskInputs) {
