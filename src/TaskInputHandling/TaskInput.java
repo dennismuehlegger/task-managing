@@ -1,9 +1,9 @@
-package TaskManaging;
+package TaskInputHandling;
 
 import java.time.LocalDate;
 import java.util.Scanner;
 
-public class TaskInputs {
+public class TaskInput {
     public boolean isAdding;
 
     public String title;
@@ -14,30 +14,30 @@ public class TaskInputs {
 
     public LocalDate deadline;
 
-    public boolean isFiltering;
-
     public boolean isSorting;
 
-    public String filterType;
+    public boolean isDescSorting;
+
+    public String sortingType;
 
     Scanner scanner = new Scanner(System.in);
 
-    public TaskInputs(boolean isAdding, String title, boolean isDone, int priority, LocalDate deadline, boolean isFiltering, boolean isSorting, String filterType) {
+    public TaskInput(boolean isAdding, String title, boolean isDone, int priority, LocalDate deadline, boolean isSorting, boolean isDescSorting, String sortingType) {
         this.isAdding = isAdding;
         this.title = title;
         this.isDone = isDone;
         this.priority = priority;
         this.deadline = deadline;
-        this.isFiltering = isFiltering;
         this.isSorting = isSorting;
-        this.filterType = filterType;
+        this.isDescSorting = isDescSorting;
+        this.sortingType = sortingType;
     }
 
-    public TaskInputs() {
+    public TaskInput() {
 
     }
 
-    public TaskInputs readInputsForTaskCreation(TaskInputProcessor taskInputProcessor) {
+    public TaskInput readInputsForTaskCreation(TaskInputProcessor taskInputProcessor) {
         System.out.print("Do you want to add a new Task? (yes/no): ");
         String userInput = scanner.nextLine();
 
@@ -62,18 +62,18 @@ public class TaskInputs {
         return null;
     }
 
-    public TaskInputs readInputsForTaskFilteringAndSorting(TaskInputProcessor taskInputProcessor) {
-        String filterInput = null;
-        System.out.print("Do you want to add a Filter? (yes/no): ");
+    public TaskInput readInputsForTaskSorting(TaskInputProcessor taskInputProcessor) {
+        String sortingInput = null;
+        System.out.print("Do you want to sort this list? (yes/no): ");
         String userInput = scanner.nextLine();
         if (userInput.equalsIgnoreCase(TaskInputEnums.YES.value)){
-            System.out.print("Which filter should be used? (title, priority, status, deadline): ");
-            filterInput = scanner.nextLine();
+            System.out.print("Which field should this list be sorted by? (title, priority, status, deadline): ");
+            sortingInput = scanner.nextLine();
         }
 
         System.out.print("sorting order? (asc/desc): ");
-        String sortingInput = scanner.nextLine();
-        return taskInputProcessor.processInputsForTaskFilteringAndSorting(this, filterInput, sortingInput);
+        String sortingOrder = scanner.nextLine();
+        return taskInputProcessor.processInputsForTaskSorting(this, sortingInput, sortingOrder);
     }
 
     public boolean isAdding() {
@@ -116,14 +116,6 @@ public class TaskInputs {
         this.deadline = deadline;
     }
 
-    public boolean isFiltering() {
-        return isFiltering;
-    }
-
-    public void setFiltering(boolean filtering) {
-        isFiltering = filtering;
-    }
-
     public boolean isSorting() {
         return isSorting;
     }
@@ -132,12 +124,20 @@ public class TaskInputs {
         isSorting = sorting;
     }
 
-    public String getFilterType() {
-        return filterType;
+    public boolean isDescSorting() {
+        return isDescSorting;
     }
 
-    public void setFilterType(String filterType) {
-        this.filterType = filterType;
+    public void setDescSorting(boolean descSorting) {
+        isDescSorting = descSorting;
+    }
+
+    public String getSortingType() {
+        return sortingType;
+    }
+
+    public void setSortingType(String sortingType) {
+        this.sortingType = sortingType;
     }
 
     public Scanner getScanner() {
