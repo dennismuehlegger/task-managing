@@ -1,6 +1,6 @@
-import TaskManaging.Task;
-import TaskManaging.TaskCreator;
-import TaskInputHandling.TaskInput;
+import taskmanaging.Task;
+import taskmanaging.TaskCreator;
+import taskinputhandling.TaskInput;
 import org.junit.Test;
 
 import java.time.LocalDate;

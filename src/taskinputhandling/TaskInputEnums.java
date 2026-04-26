@@ -1,4 +1,4 @@
-package TaskInputHandling;
+package taskinputhandling;
 
 public enum TaskInputEnums {
     YES("yes"),

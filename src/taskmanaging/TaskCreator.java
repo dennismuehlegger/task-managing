@@ -1,8 +1,8 @@
-package TaskManaging;
+package taskmanaging;
 
-import TaskInputHandling.TaskInput;
-import TaskInputHandling.TaskInputProcessor;
-import TaskSorting.TaskSorter;
+import taskinputhandling.TaskInput;
+import taskinputhandling.TaskInputProcessor;
+import tasksorting.TaskSorter;
 
 import java.util.*;
 

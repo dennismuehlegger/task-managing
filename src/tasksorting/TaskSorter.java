@@ -1,8 +1,8 @@
-package TaskSorting;
+package tasksorting;
 
-import TaskManaging.Task;
-import TaskInputHandling.TaskInputEnums;
-import TaskInputHandling.TaskInput;
+import taskmanaging.Task;
+import taskinputhandling.TaskInputEnums;
+import taskinputhandling.TaskInput;
 
 import java.util.Collections;
 import java.util.Comparator;

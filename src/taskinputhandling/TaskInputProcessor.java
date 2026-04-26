@@ -1,4 +1,4 @@
-package TaskInputHandling;
+package taskinputhandling;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
