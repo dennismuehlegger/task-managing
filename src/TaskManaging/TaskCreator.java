@@ -6,20 +6,6 @@ import TaskSorting.TaskSorter;
 
 import java.util.*;
 
-// note - db implementation saved for another more suitable project
-// DONE - filter functionality based on priority, deadline, done or title (alphabetic).
-// DONE - asc and desc?
-// DONE - make methods not reliant on scanner for better testability
-// DONE - refactoring so not everything is in this class
-// DONE - add (input) validation (try catch)
-// DONE - magic string removal
-// DONE? - task input class overhaul - getting closer to solution
-// DONE - naming convention!!!
-// DONE - add invalid tests
-// DONE - refactoring is largely done but more will probably come later
-// NOT NECESSARY - multiple filters at the same time?
-// NOT NECESSARY - deadline cannot be set before current date?
-// REVISION SOME TIME LATER - visualization?
 public class TaskCreator {
 
     TaskSorter taskSorter = new TaskSorter();
