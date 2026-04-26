@@ -25,7 +25,7 @@ It allows users to:
   * Deadline (YYYY-MM-DD)
   * Status (default: not done)
 
-### Filtering & Sorting
+### Sorting
 
 * Sort tasks by:
 
@@ -63,7 +63,7 @@ The project separates:
 * Input handling
 * Business logic
 * Data representation
-* Filtering/sorting logic
+* Sorting logic
 
 Improving:
 
@@ -103,7 +103,7 @@ TaskCreator.main()
 4. Follow console prompts to:
 
    * create tasks
-   * apply filters/sorting
+   * apply sorting
 
 ---
 
